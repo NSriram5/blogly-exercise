@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block title %}Modify Post{{q_num}}{% endblock %} {% block content %}
+<div class="h2 m-3">
+    Modify post of {{full_name}}
+</div>
+<div class="d-flex w-100 flex-row justify-content-start">
+    <div class="d-flex flex-column w-100 m-2" id="left">
+        <form action="/users/{{userid}}/posts/new" method="post">
+            <div class="my-1 d-flex justify-content-start">
+                <div class="w-25">Post Title</div>
+                <div class="w-50"><input type="text" name="title" id="title" value="{{post.title}}">
+                </div>
+            </div>
+            <div class="my-1 d-flex justify-content-start">
+                <div class="w-25">Post Content</div>
+                <div class="w-100">
+                    <textarea name="postcontent" id="postcontent" cols="50" rows="4">{{post.content}}</textarea>
+                </div>
+            </div>
+            <div class="my-1 d-flex flex-row justify-content-start">
+                <button class="btn btn-success m-1">
+                    Update
+                </button>
+                <form action="/users" method="get">
+                    <button class="btn btn-warning m-1">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

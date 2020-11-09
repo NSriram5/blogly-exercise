@@ -1,5 +1,8 @@
 """Models for Blogly."""
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+
+
 
 db = SQLAlchemy()
 
@@ -31,12 +34,12 @@ class User(db.Model):
         """Greet using name."""
         return f"I'm {self.first_name} {self.last_name}"
 
-    def get_full_name()
+    def get_full_name():
         """Method to generate a user's full name"""
         return f"{self.first_name} {self.last_name}"
 
     @property
-    def full_name()
+    def full_name():
         return f"{self.first_name} {self.last_name}"
 
 
@@ -45,7 +48,7 @@ class User(db.Model):
         p = self
         return f"<User {p.id} {p.first_name} {p.last_name}>"
 
-Class Post(db.Model):
+class Post(db.Model):
     """Posts"""
     __tablename__ = "post"
 
@@ -59,9 +62,9 @@ Class Post(db.Model):
                     nullable=False,
                     unique=False)
     created_at = db.Column(db.DateTime,
-                    nullabe=False,
+                    nullable=False,
                     unique=False,
-                    default=datetime.utcnow)
+                    default=datetime.utcnow())
     created_by_user = db.Column(db.Integer,
                     db.ForeignKey('User.id'),
                     nullable=False)

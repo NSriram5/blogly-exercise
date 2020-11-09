@@ -1,7 +1,7 @@
 """Blogly application."""
 
 from flask import Flask, request, redirect, render_template
-from models import db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -24,7 +24,7 @@ def root():
 @app.route("/users")
 def list_users():
     """List users and include buttons to detail and add views."""
-    users = User.query.oder_by(User.last_name).all()
+    users = User.query.order_by(User.last_name).all()
     return render_template("list_users.html",users=users)
 
 @app.route("/users/new",methods=["POST","GET"])
@@ -45,7 +45,7 @@ def add_user():
 def show_user(user_id):
     """Show info on a single user"""
     user = User.query.get_or_404(user_id)
-    return render_template("detail.html",user = user)
+    return render_template("user_detail.html",user = user, posts = user.created_posts)
 
 @app.route("/users/<int:user_id>/edit",methods=["POST","GET"])
 def modify_user(user_id):
@@ -69,28 +69,41 @@ def delete_user(user_id):
     db.session.commit()
     return redirect("/users")
 
-#
 @app.route("/users/<int:user_id>/posts/new",methods=["POST","GET"])
 def new_post(user_id):
     user = User.query.get_or_404(user_id)
     if request.method == "GET":
-        return render_template("addPost.html",full_name = user.full_name)
-    #
-    #More needed in this route
-    #
+        return render_template("create_post.html",userid = user_id, full_name = user.full_name)
+    title = request.form['title']
+    postcontent = request.form['postcontent']
+    post = Post(title = title, content = postcontent)
+    id = post.id
+    db.session.add(user)
+    db.session.commit()
+    return redirect(f"/posts/{id}")
 
 #
 @app.route("/posts/<int:post_id>")
 def show_post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template("showPost.html",post = post)
+    username = post.my_user.full_name
+    user_id = post.my_user.id
+    return render_template("show_post.html",post = post, full_name = full_name, user_id = user_id)
 
 #
 @app.route("/posts/<int:post_id>/edit",methods=["POST","GET"])
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
-    if request.method == "GET"
+    if request.method == "GET":
         return render_template("editPost.html",post = post)
-    #
-    #More needed in this route
-    #
+    post.title = request.form['title']
+    post.content = request.form['postcontent']
+    return redirect(f"/posts/{post_id}")
+
+@app.route("/posts/<int:post_id>/delete")
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Post deleted')
+    return redirect("/")

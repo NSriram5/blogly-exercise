@@ -1,0 +1,32 @@
+{% extends 'base.html' %} {% block title %}{{post.title}}{{q_num}}{% endblock %} {% block content %}
+<div class="h2 m-3">
+    {{post.title}}
+</div>
+<div class="d-flex w-100 flex-row justify-content-start">
+    <div class="d-flex flex-column w-100 m-2" id="left">
+        <div class="my-1 d-flex justify-content-start">
+            <div class="w-100">{{post.content}}</div>
+        </div>
+        <div class="my-1 d-flex justify-content-start">
+            <div class="w-25">written by <a href="/users/{{user_id}}"></a>{{full_name}}</div>
+        </div>
+        <div class="my-1 d-flex flex-row justify-content-start">
+            <form action="/" method="get">
+                <button class="btn btn-secondary m-1">
+                    Home
+                </button>
+            </form>
+            <form action="/posts/{{post.id}}/edit" method="get">
+                <button class="btn btn-warning m-1">
+                    Edit
+                </button>
+            </form>
+            <form action="/users" method="get">
+                <button class="btn btn-danger m-1">
+                    Delete
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
