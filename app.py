@@ -68,3 +68,29 @@ def delete_user(user_id):
     db.session.delete(user)
     db.session.commit()
     return redirect("/users")
+
+#
+@app.route("/users/<int:user_id>/posts/new",methods=["POST","GET"])
+def new_post(user_id):
+    user = User.query.get_or_404(user_id)
+    if request.method == "GET":
+        return render_template("addPost.html",full_name = user.full_name)
+    #
+    #More needed in this route
+    #
+
+#
+@app.route("/posts/<int:post_id>")
+def show_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template("showPost.html",post = post)
+
+#
+@app.route("/posts/<int:post_id>/edit",methods=["POST","GET"])
+def edit_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if request.method == "GET"
+        return render_template("editPost.html",post = post)
+    #
+    #More needed in this route
+    #
