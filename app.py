@@ -1,7 +1,9 @@
 """Blogly application."""
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, flash
 from models import db, connect_db, User, Post
+from sqlalchemy import asc, desc
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -14,12 +16,13 @@ from flask_debugtoolbar import DebugToolbarExtension
 app.config['SECRET_KEY'] = "12345"
 debug = DebugToolbarExtension(app)
 
-#import seed
+import seed
 
 @app.route("/")
 def root():
     """redirect to list of users for now"""
-    return redirect("/users")
+    posts = Post.query.order_by(desc(Post.created_at)).all()
+    return render_template("homepage.html",posts = posts)
 
 @app.route("/users")
 def list_users():
@@ -76,10 +79,11 @@ def new_post(user_id):
         return render_template("create_post.html",userid = user_id, full_name = user.full_name)
     title = request.form['title']
     postcontent = request.form['postcontent']
-    post = Post(title = title, content = postcontent)
-    id = post.id
-    db.session.add(user)
+    created_at = datetime.utcnow()
+    post = Post(title = title, content = postcontent, created_by_user = user_id, created_at = created_at)
+    db.session.add(post)
     db.session.commit()
+    id = post.id
     return redirect(f"/posts/{id}")
 
 #
@@ -88,14 +92,14 @@ def show_post(post_id):
     post = Post.query.get_or_404(post_id)
     username = post.my_user.full_name
     user_id = post.my_user.id
-    return render_template("show_post.html",post = post, full_name = full_name, user_id = user_id)
+    return render_template("view_post.html",post = post, full_name = username, user_id = user_id)
 
 #
 @app.route("/posts/<int:post_id>/edit",methods=["POST","GET"])
 def edit_post(post_id):
     post = Post.query.get_or_404(post_id)
     if request.method == "GET":
-        return render_template("editPost.html",post = post)
+        return render_template("modify_post.html",post = post)
     post.title = request.form['title']
     post.content = request.form['postcontent']
     return redirect(f"/posts/{post_id}")

@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block title %}Blogly! A place to do your thinking for you{{q_num}}{% endblock %} {% block content %}
+<div class="h2 m-3">
+    Blogly Recent Posts
+</div>
+<div class="d-flex w-100 flex-column justify-content-start">
+    {% for post in posts %}
+    <div class="d-flex flex-column justify-content-start">
+        <div class="d-flex flex-row">
+            <img src="{{post.my_user.image_url}}" alt="" height="30px">
+            <span class="h4">
+                {{post.title}}
+            </span>
+
+        </div>
+        <div class="h5">
+            {{post.content}}
+        </div>
+        <div>
+            <span>By
+            <a href="/users/{{post.my_user.id}}">{{post.my_user.full_name}}</a> on {{post.created_at}}</span>
+        </div>
+    </div>
+
+    {% endfor %}
+
+    <a href="/users">User List</a>
+</div>
+{% endblock %}

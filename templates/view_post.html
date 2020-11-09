@@ -8,7 +8,8 @@
             <div class="w-100">{{post.content}}</div>
         </div>
         <div class="my-1 d-flex justify-content-start">
-            <div class="w-25">written by <a href="/users/{{user_id}}"></a>{{full_name}}</div>
+            <div class="w-100">written by
+                <a href="/users/{{user_id}}">{{full_name}}</a></div>
         </div>
         <div class="my-1 d-flex flex-row justify-content-start">
             <form action="/" method="get">
@@ -21,7 +22,7 @@
                     Edit
                 </button>
             </form>
-            <form action="/users" method="get">
+            <form action="/posts/{{post.id}}/delete" method="get">
                 <button class="btn btn-danger m-1">
                     Delete
                 </button>
