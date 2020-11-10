@@ -1,4 +1,4 @@
-from models import User, Post, db
+from models import User, Post, Tag, db
 from app import app
 from datetime import datetime
 
@@ -29,6 +29,13 @@ first = Post(title = "First post",content = "Wowee the very first post I hope no
 dt_stamp = datetime(year = 2020,month = 11,day  = 9, hour = 13,minute = 55,second = 50)
 foster = User.query.filter(User.first_name == "Gloria").first()
 second = Post(title = "Second post",content = "yesss I get to be second!",created_at = dt_stamp,created_by_user = foster.id)
+
+# Add Tags
+sunshine = Tag(name = 'sunshine')
+rainbows = Tag(name = 'rainbows')
+
+db.session.add(sunshine)
+db.session.add(rainbows)
 
 db.session.add(first)
 db.session.add(second)

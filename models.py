@@ -11,6 +11,35 @@ def connect_db(app):
     db.app = app
     db.init_app(app)
 
+class PostTag(db.Model):
+    """PostTag Joins"""
+    __tablename__ = "posttags"
+
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
+    post_id = db.Column(db.Integer,
+                    db.ForeignKey('posts.id'),
+                    nullable=False)
+    tag_id = db.Column(db.Integer,
+                    db.ForeignKey('tags.id'),
+                    nullable=False)
+    my_tag = db.relationship('Tag',backref='posttag')
+    my_post = db.relationship('Post',backref='posttag')
+
+class Tag(db.Model):
+    """Tags"""
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,
+                    primary_key=True,
+                    autoincrement=True)
+    name = db.Column(db.String(25),
+                    nullable=False,
+                    unique=True)
+    #my_posts =db.relationship('Post',secondary='posttags',backref='tag')
+    my_tag_join = db.relationship('PostTag',backref='tag')
+
 class Post(db.Model):
     """Posts"""
     __tablename__ = "posts"
@@ -31,7 +60,9 @@ class Post(db.Model):
     created_by_user = db.Column(db.Integer,
                     db.ForeignKey('users.id'),
                     nullable=False)
+    my_tags = db.relationship('Tag',secondary='posttags',backref='post')
     my_user = db.relationship('User',backref='post')
+    my_tag_joins = db.relationship('PostTag')
 
     def __repr__(self):
         """Show details about the Post"""

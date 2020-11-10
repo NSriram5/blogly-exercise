@@ -1,18 +1,20 @@
-{% extends 'base.html' %} {% block title %}Active Users{% endblock %} {% block content %}
+{% extends 'base.html' %} {% block title %}List of Tags{% endblock %} {% block content %}
 <div class="h2 m-3">
-    Active Users
+    Tags in Use
 </div>
 <div class="d-flex w-75 flex-row justify-content-center">
     <div class="container d-flex flex-column w-50" id="left">
-        {% for user in users %}
-        <li>
-            <a href="users/{{user.id}}">{{user.first_name}} {{user.last_name}}</a>
-        </li>
-        {% endfor %}
+        <ul>
+            {% for tag in tags %}
+            <li>
+                <a href="tags/{{tag.id}}">{{tag.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
         <div>
-            <form action="/users/new" method="get">
+            <form action="/tags/new" method="get">
                 <button class="btn btn-primary">
-                Add User
+                Add Tag
                 </button>
             </form>
         </div>

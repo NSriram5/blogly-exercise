@@ -15,8 +15,6 @@ app.config['TESTING'] = True
 # This is a bit of hack, but don't use Flask DebugToolbar
 app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
 
-
-
 class UserViewsTestCase(TestCase):
     """Tests for views for users."""
     def setUp(self):

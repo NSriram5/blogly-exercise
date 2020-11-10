@@ -11,6 +11,10 @@
             <div class="w-100">written by
                 <a href="/users/{{user_id}}">{{full_name}}</a></div>
         </div>
+        <div>
+            <strong>Tags:</strong> {% for tag in tags %}
+            <a href="/tags/{{tag.id}}"><span class="badge badge-primary">{{tag.name}}</span></a> {% endfor %}
+        </div>
         <div class="my-1 d-flex flex-row justify-content-start">
             <form action="/" method="get">
                 <button class="btn btn-secondary m-1">

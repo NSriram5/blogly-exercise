@@ -16,6 +16,11 @@
                     <textarea name="postcontent" id="postcontent" cols="50" rows="4"></textarea>
                 </div>
             </div>
+            <div>
+                {% for tag in tags %}
+                <input type="checkbox" name="tags" id="{{tag.id}}">
+                <label for="{{tag.id}}">{{tag.name}}</label><br> {% endfor %}
+            </div>
             <div class="my-1 d-flex flex-row justify-content-start">
                 <button class="btn btn-success m-1">
                     Post

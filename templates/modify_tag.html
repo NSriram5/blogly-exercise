@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block title %}Modify Tag{{q_num}}{% endblock %} {% block content %}
+<div class="h2 m-3">
+    Modify tag
+</div>
+<div class="d-flex w-100 flex-row justify-content-start">
+    <div class="d-flex flex-column w-100 m-2" id="left">
+        <form action="/tags/{{tag.id}}/edit" method="post">
+            <div class="my-1 d-flex justify-content-start">
+                <div class="w-25">Tag Name</div>
+                <div class="w-50"><input type="text" name="tagname" id="tagname" value="{{tag.name}}">
+                </div>
+            </div>
+            <div class="my-1 d-flex flex-row justify-content-start">
+                <button class="btn btn-success m-1">
+                    Update
+                </button>
+                <form action="/" method="get">
+                    <button class="btn btn-warning m-1">
+                        Cancel
+                    </button>
+                </form>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
